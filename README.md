@@ -98,7 +98,7 @@ Un componente siempre se compone de:
 2.  **Plantilla HTML**: Define la estructura y apariencia de la vista.
 3.  **Estilos CSS**: Estilos que se aplican únicamente a la plantilla del componente.
 
-![Componente y Plantilla](https://angular.dev/guide/components)
+[Componente y Plantilla](https://angular.dev/guide/components)
  
 El siguiente diagrama ilustra la conexión directa entre la clase y la plantilla:
 
@@ -138,7 +138,7 @@ Angular utiliza la **Inyección de Dependencias (DI)** para proporcionar a los c
 
 El enlace de datos es el mecanismo que sincroniza los datos entre la clase del componente (el modelo) y su plantilla (la vista). Facilita la comunicación entre ambas partes.
 
-![Data Binding en Angular](https://angular.io/assets/images/guide/architecture/databinding.png)
+
 
 *   **Desde el Componente a la Vista:**
     *   **Interpolación `{{valor}}`**: Muestra valores de la clase en el HTML.
