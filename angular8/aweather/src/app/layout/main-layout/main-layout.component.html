@@ -1,0 +1,24 @@
+<app-top-menu [sidenav]="sidenav"></app-top-menu>
+<mat-sidenav-container class="app-body">
+    <mat-sidenav #sidenav [mode]="sidebarMode" opened="true">
+        <app-left-menu></app-left-menu>
+    </mat-sidenav>
+    <div class="main">
+
+        <router-outlet></router-outlet>
+
+        <!--
+        <app-weather-card></app-weather-card>
+        Para presentar el componente
+        llama app-weather-search 
+        Para enviar de afuera hacaia dentro Out
+        Se debe crear una variable que maneje o envie el evento 
+        componente padre, nombre ciudad {{cityName}}
+        @Output() searchEvent EventEmitter
+        <br>
+
+        Componente padre, nombre ciudad {{cityName}}
+        <app-weather-search (searchEvent)="search($event)"></app-weather-search>
+        -->
+    </div>
+</mat-sidenav-container>
