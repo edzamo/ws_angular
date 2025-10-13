@@ -18,6 +18,29 @@ Toda aplicación en Angular está construida a partir de una serie de "bloques" 
 
 ![Arquitectura de Angular](https://angular.io/assets/images/guide/architecture/overview.png)
 
+A continuación, se presenta un diagrama de flujo simplificado que ilustra cómo se conectan estas piezas:
+
+```mermaid
+graph TD
+    subgraph "Aplicación Angular"
+        NgModule["NgModule (Módulo)"]
+        Componente["Componente (Lógica + Datos)"]
+        Servicio["Servicio (Lógica Compartida)"]
+        Plantilla["Plantilla (HTML)"]
+    end
+
+    NgModule -- Agrupa y declara --> Componente
+    NgModule -- Provee --> Servicio
+    Componente -- Inyecta --> Servicio
+    Componente -- Controla --> Plantilla
+    Plantilla -- Renderiza la vista --> UI((UI Final))
+
+    style NgModule fill:#dd0031,stroke:#333,stroke-width:2px,color:#fff
+    style Componente fill:#4285f4,stroke:#333,stroke-width:2px,color:#fff
+    style Servicio fill:#34a853,stroke:#333,stroke-width:2px,color:#fff
+    style Plantilla fill:#fbbc05,stroke:#333,stroke-width:2px,color:#000
+```
+
 ### Módulos (`NgModule`)
 
 Piensa en los módulos como **cajas organizadoras**. Cada aplicación tiene al menos un módulo raíz (`AppModule`) que arranca la aplicación. Los módulos agrupan piezas relacionadas (componentes, servicios, etc.) y pueden importar la funcionalidad de otros módulos.
@@ -46,11 +69,27 @@ export class AppModule { }
 
 Los componentes son los bloques de construcción básicos de la UI en una aplicación Angular. Un componente controla una porción de la pantalla llamada "vista". Cada componente consiste en:
 
-1.  Una **clase** de TypeScript con un decorador `@Component()` que maneja la lógica.
-2.  Una **plantilla** HTML que define la vista.
-3.  **Estilos** CSS específicos para esa plantilla.
+Un componente siempre se compone de:
+1.  **Clase TypeScript**: Contiene los datos y la lógica. Se identifica con el decorador `@Component`.
+2.  **Plantilla HTML**: Define la estructura y apariencia de la vista.
+3.  **Estilos CSS**: Estilos que se aplican únicamente a la plantilla del componente.
 
 !Componente y Plantilla
+
+El siguiente diagrama ilustra la conexión directa entre la clase y la plantilla:
+
+```
+  +--------------------------+         +----------------------------+
+  |   mi-componente.ts       |         |   mi-componente.html       |
+  |                          |         |                            |
+  | @Component({             |         |  <h1>{{ titulo }}</h1>     |
+  |   templateUrl: './mi-comp.html' >------>|  <p>Mi App funciona!</p>   |
+  | })                       |         |                            |
+  | export class MiComponente{ |         +----------------------------+
+  |   titulo = 'Mi App';     |
+  | }                        |
+  +--------------------------+
+```
 
 ```typescript
 import { Component } from '@angular/core';
@@ -92,17 +131,30 @@ El **DOM (Document Object Model)** o Modelo de Objetos del Documento es una repr
 
 JavaScript puede interactuar con el DOM para leer o modificar el contenido, la estructura y el estilo de una página web de forma dinámica. Sin embargo, manipular el DOM directamente puede ser complejo y afectar el rendimiento si no se hace de manera eficiente.
 
-#### El Proceso de Angular para Actualizar la Vista
+#### El Proceso de Angular: Detección de Cambios
 
-Angular abstrae la manipulación directa del DOM para que los desarrolladores no tengan que hacerlo. En su lugar, Angular se encarga de actualizar la vista de manera eficiente a través de un proceso llamado **Detección de Cambios (Change Detection)**.
+Angular nos abstrae de manipular el DOM directamente. En su lugar, utiliza un mecanismo altamente optimizado llamado **Detección de Cambios (Change Detection)**.
 
-El flujo de trabajo es el siguiente:
+El flujo es el siguiente:
 
-1.  **Estado del Componente**: Cada componente tiene un estado, que son los valores de sus propiedades (por ejemplo, `title = 'mi-app'`).
-2.  **Renderizado Inicial**: Angular renderiza la vista inicial basándose en el estado actual de los componentes.
-3.  **Eventos Asíncronos**: Cuando ocurre un evento que puede cambiar el estado de la aplicación (como un clic del usuario, una respuesta de una API o un temporizador `setTimeout`), se activa el mecanismo de detección de cambios de Angular.
-4.  **Detección de Cambios**: Angular recorre el árbol de componentes de arriba hacia abajo y compara el valor actual de las propiedades con su valor anterior.
-5.  **Actualización del DOM**: Si Angular detecta un cambio en alguna propiedad que está enlazada a la plantilla, actualiza **únicamente la parte específica del DOM** que necesita ser modificada.
+```
+ (1) Evento del Usuario o dato de API
+      |
+      v
+ (2) Actualiza el estado en el Componente (ej: this.nombre = "nuevo valor")
+      |
+      v
+ (3) Se dispara la Detección de Cambios de Angular
+      |
+      v
+ (4) Angular compara el estado anterior con el nuevo
+      |
+      +-----> Si hay cambios en datos enlazados...
+      |
+      v
+ (5) Angular actualiza SOLO la parte afectada del DOM en el navegador
+
+```
 
 Este enfoque es mucho más eficiente que volver a renderizar toda la página, lo que resulta en aplicaciones más rápidas y fluidas. El desarrollador solo se preocupa por cambiar los datos del componente, y Angular se encarga del resto.
 
@@ -110,25 +162,21 @@ Este enfoque es mucho más eficiente que volver a renderizar toda la página, lo
 
 Desde que Angular crea un componente hasta que lo destruye, este pasa por un ciclo de vida con varias fases. Angular nos ofrece "ganchos" (hooks), que son métodos que podemos implementar en nuestras clases de componentes para ejecutar código en momentos clave de este ciclo.
 
-El flujo de ejecución de los ganchos más comunes es el siguiente:
+!Diagrama del Ciclo de Vida del Componente
 
-![Diagrama del Ciclo de Vida del Componente](https://angular.io/assets/images/guide/lifecycle-hooks/hooks-in-sequence.png)
+Los ganchos más importantes en orden de ejecución son:
 
-1.  **`constructor()`**: No es un hook de Angular, sino de la clase TypeScript. Es el primer método que se ejecuta. Se usa para la inyección de dependencias, pero no se debe poner lógica compleja aquí. El componente aún no ha sido inicializado.
+1.  **`constructor()`**: Se ejecuta primero. Ideal para la inyección de dependencias. **No uses lógica compleja aquí**, ya que las propiedades `@Input()` aún no están disponibles.
 
-2.  **`ngOnChanges()`**: Se ejecuta antes de `ngOnInit()` y cada vez que Angular detecta un cambio en las propiedades de entrada del componente (las decoradas con `@Input()`).
+2.  **`ngOnChanges()`**: Se ejecuta cuando se inicializa o cambia el valor de una propiedad de entrada (`@Input()`).
 
-3.  **`ngOnInit()`**: Se ejecuta **una sola vez** después del primer `ngOnChanges()`. Es el lugar ideal para poner la lógica de inicialización del componente, como la carga de datos desde un servicio.
+3.  **`ngOnInit()`**: Se ejecuta **una sola vez** después del primer `ngOnChanges()`. Es el lugar perfecto para la lógica de inicialización, como llamar a un servicio para cargar datos.
 
-4.  **`ngDoCheck()`**: Se ejecuta en cada ciclo de detección de cambios, justo después de `ngOnChanges()` y `ngOnInit()`. Permite implementar una lógica de verificación de cambios personalizada.
+4.  **`ngAfterViewInit()`**: Se ejecuta **una sola vez** después de que la vista del componente y sus vistas hijas se han inicializado. Ideal para interactuar con elementos del DOM usando `@ViewChild`.
 
-5.  **`ngAfterContentInit()`**: Se ejecuta **una sola vez** después de que Angular proyecta contenido externo en la vista del componente (usando `<ng-content>`).
+5.  **`ngOnDestroy()`**: Se ejecuta justo antes de que el componente sea destruido. Es **crucial** para liberar recursos, como desuscribirse de `Observables`, para evitar fugas de memoria.
 
-6.  **`ngAfterViewInit()`**: Se ejecuta **una sola vez** después de que la vista del componente y las vistas de sus hijos han sido completamente inicializadas. Es el lugar ideal para interactuar con elementos del DOM de la plantilla (por ejemplo, con `@ViewChild`).
-
-7.  **`ngOnDestroy()`**: Se ejecuta justo antes de que Angular destruya el componente. Es fundamental para liberar recursos, desuscribirse de `Observables` y evitar fugas de memoria.
-
-#### Ejemplo de Implementación:
+#### Ejemplo de Implementación
 
 ```typescript
 import { Component, OnInit, OnChanges, OnDestroy, Input, SimpleChanges } from '@angular/core';
@@ -142,7 +190,7 @@ export class CicloVidaComponent implements OnInit, OnChanges, OnDestroy {
   @Input() miPropiedad: string;
 
   constructor() {
-    console.log('1. constructor: La propiedad aún no está disponible.');
+    console.log('1. constructor: La propiedad @Input aún no está disponible.');
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -150,11 +198,11 @@ export class CicloVidaComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('3. ngOnInit: Componente inicializado. Ideal para cargar datos.');
+    console.log('3. ngOnInit: Componente inicializado. Ideal para cargar datos iniciales.');
   }
 
   ngOnDestroy(): void {
-    console.log('X. ngOnDestroy: Componente a punto de ser destruido. ¡A limpiar!');
+    console.log('X. ngOnDestroy: Componente a punto de ser destruido. ¡A limpiar la casa!');
   }
 }
 ```
