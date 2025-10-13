@@ -16,7 +16,31 @@ Angular es una plataforma y framework de desarrollo, mantenido por Google, para 
 
 Toda aplicación en Angular está construida a partir de una serie de "bloques" o conceptos clave. Entender cada uno es el primer paso para dominar el framework.
 
-![Arquitectura de Angular](https://angular.io/assets/images/guide/architecture/overview.png)
+### Arquitectura Interna del Framework
+
+Angular actúa como una capa de abstracción entre el código que escribes y lo que el navegador renderiza. Esto le permite optimizar las actualizaciones del DOM para un rendimiento máximo. El siguiente diagrama muestra esta relación:
+
+```mermaid
+graph TD
+    subgraph "Código de la Aplicación (Lo que escribes)"
+        A[Componente (.ts)<br>Lógica y Estado]
+        B(Plantilla (.html)<br>Estructura de la Vista)
+    end
+
+    subgraph "Framework Angular (Proceso Interno)"
+        C{Compilador JIT/AOT}
+        D[Vista de Angular<br>(Estructura de datos optimizada)]
+        E{Mecanismo de Detección de Cambios}
+    end
+
+    subgraph "Navegador"
+        F[DOM<br>(Document Object Model)]
+    end
+
+    A & B -- Son compilados por --> C -- para crear la --> D
+    A -- Un cambio de estado activa --> E
+    E -- Compara y actualiza eficientemente --> F
+```
 
 A continuación, se presenta un diagrama de flujo simplificado que ilustra cómo se conectan estas piezas:
 
@@ -74,7 +98,7 @@ Un componente siempre se compone de:
 2.  **Plantilla HTML**: Define la estructura y apariencia de la vista.
 3.  **Estilos CSS**: Estilos que se aplican únicamente a la plantilla del componente.
 
-!Componente y Plantilla
+![Componente y Plantilla](https://angular.io/assets/images/guide/architecture/component-overview.png)
 
 El siguiente diagrama ilustra la conexión directa entre la clase y la plantilla:
 
