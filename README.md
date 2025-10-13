@@ -18,23 +18,23 @@ Toda aplicación en Angular está construida a partir de una serie de "bloques" 
 
 ### Arquitectura Interna del Framework
 
-Angular actúa como una capa de abstracción entre el código que escribes y lo que el navegador renderiza. Esto le permite optimizar las actualizaciones del DOM para un rendimiento máximo. El siguiente diagrama muestra esta relación:
+Angular actúa como una capa de abstracción entre el código que escribes y lo que el navegador renderiza. Esto le permite optimizar las actualizaciones del DOM para un rendimiento máximo. Para una visión más profunda y oficial, puedes consultar la [guía de arquitectura de Angular](https://angular.dev/overview). El siguiente diagrama muestra esta relación:
 
 ```mermaid
 graph TD
     subgraph "Código de la Aplicación (Lo que escribes)"
-        A[Componente (.ts)<br>Lógica y Estado]
-        B(Plantilla (.html)<br>Estructura de la Vista)
+        A["Componente (.ts)<br>Lógica y Estado"]
+        B("Plantilla (.html)<br>Estructura de la Vista")
     end
 
     subgraph "Framework Angular (Proceso Interno)"
-        C{Compilador JIT/AOT}
-        D[Vista de Angular<br>(Estructura de datos optimizada)]
-        E{Mecanismo de Detección de Cambios}
+        C{"Compilador JIT/AOT"}
+        D["Vista de Angular<br>(Estructura de datos optimizada)"]
+        E{"Mecanismo de Detección de Cambios"}
     end
 
     subgraph "Navegador"
-        F[DOM<br>(Document Object Model)]
+        F["DOM<br>(Document Object Model)"]
     end
 
     A & B -- Son compilados por --> C -- para crear la --> D
@@ -52,7 +52,7 @@ graph TD
         Servicio["Servicio (Lógica Compartida)"]
         Plantilla["Plantilla (HTML)"]
     end
-
+    
     NgModule -- Agrupa y declara --> Componente
     NgModule -- Provee --> Servicio
     Componente -- Inyecta --> Servicio
@@ -99,7 +99,7 @@ Un componente siempre se compone de:
 3.  **Estilos CSS**: Estilos que se aplican únicamente a la plantilla del componente.
 
 ![Componente y Plantilla](https://angular.io/assets/images/guide/architecture/component-overview.png)
-
+ 
 El siguiente diagrama ilustra la conexión directa entre la clase y la plantilla:
 
 ```
