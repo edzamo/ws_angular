@@ -98,7 +98,7 @@ Un componente siempre se compone de:
 2.  **Plantilla HTML**: Define la estructura y apariencia de la vista.
 3.  **Estilos CSS**: Estilos que se aplican únicamente a la plantilla del componente.
 
-![Componente y Plantilla](https://angular.io/assets/images/guide/architecture/component-overview.png)
+![Componente y Plantilla](https://angular.dev/guide/components)
  
 El siguiente diagrama ilustra la conexión directa entre la clase y la plantilla:
 
