@@ -1,1 +1,11 @@
 <p>application-info works!!!!...</p>
+
+    <h2>Welcome {{ name }}</h2>
+    <h2>Welcome {{ secondName }}</h2>
+    <h3>Counter: {{ counter }}</h3>
+    <h3>Counter Signal: {{ counterSignal() }}</h3>
+   
+    <button (click)="increaseByCounter(1,'increase')">+1</button> 
+    <button (click)="increaseByCounter(1,'decrease')">-1</button>
+    <button (click)="increaseByCounter(5,'reset')">Reset</button>
+
