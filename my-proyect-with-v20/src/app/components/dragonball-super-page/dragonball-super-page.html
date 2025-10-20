@@ -1,17 +1,14 @@
-<h1>Dragonball Page</h1>
+<h1>Dragonball Super Page</h1>
 <hr>
 
 <section class="row">
     <div class="col-12 col-sm-6">
         <h1>Agregar: {{name()}}</h1>
-        <!-- #txtName is a template reference variable -->
+
         <input type="text" placeholder="Nombre " class="form-control mb-2" [value]="name()"
             (change)="name.set(txtName.value)" #txtName />
-        <input type="number" placeholder="Poder " class="form-control mt-2"
-        [value]="power()"
-        (input)="power.set(+txtPower.value)"
-        #txtPower
-        />
+        <input type="number" placeholder="Poder " class="form-control mt-2" [value]="power()"
+            (input)="power.set(+txtPower.value)" #txtPower />
         <button class="mt-2 btn btn-primary" (click)="addCharacter()">Agregar</button>
 
     </div>
@@ -24,10 +21,6 @@
             @if (character.power > 500) {
             <li>
                 <span>{{idx+1}} {{character.name}} </span>
-                <!-- 
-                <strong [ngClass]="powerClasses()"/>
-
-                 -->
                 <strong [class.text-danger]="character.power > 9000" [class.text-primary]="character.power <= 9000">
                     {{character.power}} </strong>
 
