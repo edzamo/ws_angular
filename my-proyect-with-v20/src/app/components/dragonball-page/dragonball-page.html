@@ -1,0 +1,35 @@
+<h1>Dragonball Page</h1>
+<hr>
+
+<section class="row">
+    <div class="col-12 col-sm-6">
+        <h1>Agregar:</h1>
+        <input type="text" placeholder="Nombre " #inputName class="form-control mb-2" />
+        <input type="text" placeholder="Poder " #inputPower class="form-control mb-2" />
+        <button class="mt-2 btn btn-primary">Agregar</button>
+
+    </div>
+
+    <div class="col-12 col-sm-6">
+        <h2>Lista de personajes</h2>
+        <ul>
+
+            @for (character of characteres(); track character.id; let idx= $index) {
+            <li>
+                <span>{{idx+1}} {{character.name}} </span>
+                <!-- 
+                <strong [ngClass]="powerClasses()"/>
+
+                 -->
+                <strong 
+                [class.text-danger]="character.power > 9000"
+                [class.text-primary]="character.power <= 9000"
+                > {{character.power}} </strong>
+
+            </li>
+            }
+
+        </ul>
+    </div>
+
+</section>
