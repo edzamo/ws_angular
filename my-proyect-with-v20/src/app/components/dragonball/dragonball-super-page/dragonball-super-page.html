@@ -1,0 +1,15 @@
+<h1>Dragonball Super Page</h1>
+<hr>
+
+<section class="row">
+    <div class="col-12 col-sm-6">
+        <dragonball-character-add (newCharacter)="addCharacter($event)" />
+    </div>
+
+    <div class="col-12 col-sm-6">
+        <!-- using component Character List how it works!. send characters to the component -->
+        <dragonball-character-list [characters]="characteres()" />
+
+    </div>
+
+</section>
