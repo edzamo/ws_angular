@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 import { ApplicationInfo } from './components/application-info/application-info';
 import { HeroPage } from './components/hero-page/hero-page';
-import { DragonballPage } from './components/dragonball-page/dragonball-page';
-import { DragonballSuperPage } from './components/dragonball-super-page/dragonball-super-page';
+import { DragonballPage } from './components/dragonball/dragonball-page/dragonball-page';
+import { DragonballSuperPage } from './components/dragonball/dragonball-super-page/dragonball-super-page';
+
 
 export const routes: Routes = [
   {
