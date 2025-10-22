@@ -19,7 +19,7 @@ export class DragonballCharacterAdd {
 
     addCharacter() {
       const newCharacter: Character = {
-        id: UUID().toString(),
+        id: Math.floor(Math.random() * 10000), // Generate a random ID for the new character
         name: this.name(),
         power: Number(this.power()),
       };
