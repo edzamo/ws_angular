@@ -41,6 +41,22 @@ Cuando creas un proyecto, Angular CLI genera una estructura de carpetas y archiv
         *   `app.routes.ts`: (En proyectos standalone) Define las rutas de navegación de tu aplicación.
 
 ---
+## 📁 Resumen de Archivos y Carpetas Generados por Defecto (Angular v20)
+
+Aquí tienes un resumen de los archivos y carpetas más importantes que se generan al crear un nuevo proyecto Angular en la versión 20, junto con su propósito principal:
+
+| Archivo/Carpeta | Propósito |
+| :-------------- | :-------- |
+| `src/app` | Código de la aplicación (componentes, rutas, servicios) |
+| `src/assets/` | Archivos estáticos (imágenes, iconos, etc.) |
+| `src/environments/` | Configuración específica del entorno (desarrollo, producción) |
+| `src/main.ts` | Punto de entrada principal de la aplicación |
+| `angular.json` | Configuración de compilación y del proyecto |
+| `package.json` | Dependencias del proyecto y scripts de npm |
+| `tsconfig*.json` | Configuraciones del compilador de TypeScript |
+| `.editorconfig` | Reglas de estilo de código para editores |
+| `.gitignore` | Reglas para ignorar archivos en el control de versiones de Git |
+| `README.md` | Guía y descripción del proyecto |
 
 ## 🧩 ¿Qué es un Módulo? (NgModule)
 
