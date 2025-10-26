@@ -66,6 +66,16 @@ La interfaz de usuario de este proyecto se basa en la siguiente plantilla de das
 
 [Dashboard Navigation Component](https://www.creative-tim.com/twcomponents/component/dashboard-navigation)
 
+## Iconos
+
+Para la iconografía del proyecto, se utilizará la librería [Font Awesome](https://fontawesome.com/). Los iconos se importarán desde el siguiente CDN:
+
+[Font Awesome CDN](https://cdnjs.com/libraries/font-awesome)
+
+## Flowbite
+
+Para la creación de interfaces de usuario dinámicas y componentes interactivos, este proyecto utiliza [Flowbite](https://flowbite.com/). Flowbite es una librería de componentes de código abierto construida sobre las clases de utilidad de Tailwind CSS.
+
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
