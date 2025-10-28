@@ -1,5 +1,4 @@
 import {  Component, input } from '@angular/core';
-import { Gif } from 'src/app/gifs/interfaces/gif.interface';
 
 @Component({
   selector: 'list-item',
