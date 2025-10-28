@@ -1,1 +1,13 @@
-<p>search-page works!</p>,
+<h2 class="text-2xl font-bold mt-5">Search Page </h2>
+<h3 class="text-sm text-gray-500"> Search for your favorite GIFs </h3>
+
+<section class="flex flex-col gap-4">
+    <input type="text" placeholder="Search GIFs..." class="border border-gray-300 p-2 rounded"
+        (keyup.enter)="search(txtSearch.value)" #txtSearch />
+
+</section>
+
+<section class="py-5">
+    <list [gifList]="gifs()"></list>
+
+</section>
