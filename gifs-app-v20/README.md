@@ -66,6 +66,47 @@ La interfaz de usuario de este proyecto se basa en la siguiente plantilla de das
 
 [Dashboard Navigation Component](https://www.creative-tim.com/twcomponents/component/dashboard-navigation)
 
+## Iconos
+
+Para la iconografía del proyecto, se utilizará la librería [Font Awesome](https://fontawesome.com/). Los iconos se importarán desde el siguiente CDN:
+
+[Font Awesome CDN](https://cdnjs.com/libraries/font-awesome)
+
+## Flowbite
+
+Para la creación de interfaces de usuario dinámicas y componentes interactivos, este proyecto utiliza [Flowbite](https://flowbite.com/). Flowbite es una librería de componentes de código abierto construida sobre las clases de utilidad de Tailwind CSS.
+
+## Comunicación entre Componentes con Signals
+
+Este proyecto utiliza **Angular Signals** para una gestión de estado reactiva y eficiente. La comunicación de datos desde componentes padres a hijos se realiza a través de **Input Signals**.
+
+### ¿Cómo funciona?
+
+Los `Inputs` de los componentes se declaran con la función `input()` en lugar del decorador `@Input()`. Esto crea un `Signal` que contiene el valor pasado desde el componente padre.
+
+```typescript
+// Componente hijo que recibe un dato
+import { Component, input } from '@angular/core';
+
+@Component({ ... })
+export class ChildComponent {
+  // Declara una entrada obligatoria como un Signal de solo lectura.
+  data = input.required<string>(); 
+
+  // Para usar el valor en la plantilla, se invoca como una función: data()
+}
+```
+
+### Flujo de Datos en el Proyecto
+
+1.  El componente `TrendingPage` (padre) define una lista de URLs.
+2.  Pasa esta lista al componente `List` (hijo) a través de un *property binding*: `<list [listUrl]="miListaDeUrls">`.
+3.  El componente `List` recibe el array en su `input` signal: `listUrl = input.required<string[]>()`.
+4.  `List` itera sobre el array (`@for (url of listUrl(); ...)` y por cada elemento, renderiza un componente `ListItem` (nieto), pasándole la URL individual: `<list-item [url]="url">`.
+5.  El componente `ListItem` recibe la URL en su propio `input` signal: `url = input.required<string>()` y la usa para mostrar la imagen.
+
+Este enfoque aprovecha la reactividad granular de los Signals para optimizar las actualizaciones del DOM, mejorando el rendimiento de la aplicación.
+
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
