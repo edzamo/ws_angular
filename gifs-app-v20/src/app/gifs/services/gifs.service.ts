@@ -1,11 +1,18 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { GifMapper } from '../mapper/gif.mapper';
 import { GiphyResponse } from '../interfaces/giphy.interface';
 import { Gif } from '../interfaces/gif.interface';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 
+const GIF_KEY = 'searchHistory';
+
+const gifsFromLocalStorage = () => {
+  const history = localStorage.getItem(GIF_KEY);
+  if (!history) return {};
+  return JSON.parse(history) as Record<string, Gif[]>;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -14,6 +21,10 @@ export class GifsService {
 
   trendingGifs = signal<Gif[]>([]);
   tredingGifsLoading = signal(true);
+  searchHistory = signal<Record<string, Gif[]>>(gifsFromLocalStorage());
+  searchHistoryKeys = computed(() => Object.keys(this.searchHistory()));
+
+
 
   constructor() {
     this.loadTrendingGifs();
@@ -37,7 +48,7 @@ export class GifsService {
       });
   }
 
-  searchGifs(query: string){
+  searchGifs(query: string) {
     console.log('Searching gifs with query:', query);
 
     return this.http
@@ -49,11 +60,27 @@ export class GifsService {
         },
       })
       .pipe(
-        map((response) => {
-          const gifList: Gif[] = GifMapper.mapGifResponseToGifList(response.data);
-          console.log('The search gifList', gifList);
-          return gifList;
+        map(({ data }) => data),
+        map((items) => GifMapper.mapGifResponseToGifList(items)),
+        tap((items) => {
+
+          this.searchHistory.update((history) => ({
+            ...history,
+            [query.toLowerCase()]: items
+
+          }));
         })
       );
   }
+
+
+  getHistoryGifs(query: string): Gif[] {
+    return this.searchHistory()[query] ?? [];
+  }
+
+  saveGifsToLocalStorage = effect(() => {
+    const history = JSON.stringify(this.searchHistory());
+    localStorage.setItem(GIF_KEY, history);
+  });
+
 }
