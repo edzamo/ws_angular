@@ -1,7 +1,8 @@
-import {  Component } from '@angular/core';
+import {  Component, inject } from '@angular/core';
 
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { MenuOption } from 'src/app/gifs/interfaces/menuOption';
+import { GifsService } from 'src/app/gifs/services/gifs.service';
 
 @Component({
   selector: 'menu-options',
@@ -9,6 +10,11 @@ import { MenuOption } from 'src/app/gifs/interfaces/menuOption';
   templateUrl: './menu-options.html',
 })
 export class MenuOptions {
+
+  gifService = inject(GifsService);
+
+
+
   menuOptions: MenuOption[] = [
     {
       label: 'Trending',
