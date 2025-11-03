@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { List } from '../../components/list/list';
 import { GifsService } from '../../services/gifs.service';
 
@@ -25,11 +25,16 @@ const serviceUrl: string[] = [
 })
 export default class TrendingPage {
   //listUrl: string[] = serviceUrl;
- // listUrl = signal(serviceUrl)
-
-
+  // listUrl = signal(serviceUrl)
 
   gifService = inject(GifsService);
 
-  
+  scrollDivRef= viewChild<ElementRef>('gridScrollDiv'); //name of the variable in the html #gridScrollDiv
+
+  onScrollDiv(event: Event) {
+    console.log('Scroll event detected:', event);
+    const scrollDiv= this.scrollDivRef()?.nativeElement;
+    console.log('ScrollDiv Element:', scrollDiv);
+    
+  }
 }

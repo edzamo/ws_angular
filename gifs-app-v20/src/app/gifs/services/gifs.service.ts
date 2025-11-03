@@ -12,7 +12,7 @@ const gifsFromLocalStorage = () => {
   const history = localStorage.getItem(GIF_KEY);
   if (!history) return {};
   return JSON.parse(history) as Record<string, Gif[]>;
-}
+};
 @Injectable({
   providedIn: 'root',
 })
@@ -24,7 +24,14 @@ export class GifsService {
   searchHistory = signal<Record<string, Gif[]>>(gifsFromLocalStorage());
   searchHistoryKeys = computed(() => Object.keys(this.searchHistory()));
 
-
+  trandingGroups = computed(() => {
+    const groups = [];
+    for (let i = 0; i < this.trendingGifs().length; i += 3) {
+      groups.push(this.trendingGifs().slice(i, i + 3));
+    }
+    console.log('Trending groups:', groups);
+    return groups;
+  });
 
   constructor() {
     this.loadTrendingGifs();
@@ -63,16 +70,13 @@ export class GifsService {
         map(({ data }) => data),
         map((items) => GifMapper.mapGifResponseToGifList(items)),
         tap((items) => {
-
           this.searchHistory.update((history) => ({
             ...history,
-            [query.toLowerCase()]: items
-
+            [query.toLowerCase()]: items,
           }));
         })
       );
   }
-
 
   getHistoryGifs(query: string): Gif[] {
     return this.searchHistory()[query] ?? [];
@@ -82,5 +86,4 @@ export class GifsService {
     const history = JSON.stringify(this.searchHistory());
     localStorage.setItem(GIF_KEY, history);
   });
-
 }
