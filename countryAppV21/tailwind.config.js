@@ -10,8 +10,7 @@ module.exports = {
   plugins: [
     require('daisyui'),
   ],
-  // Configuración opcional para daisyUI
   daisyui: {
-    themes: ["sunset"], // Tu tema "sunset" va aquí
+    themes: ["light", "dark", "cupcake", "sunset"],
   },
 }
