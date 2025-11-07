@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 import { CountryLayout } from './layout/country-layout/country-layout';
-import { ByCapital } from './pages/by-capital/by-capital-page';
+import { ByCapitalPage } from './pages/by-capital/by-capital-page';
+import { ByCountryPage } from './pages/by-country-page/by-country-page';
+import { ByRegionPage } from './pages/by-region-page/by-region-page';
+import { CountryPage } from './pages/country-page/country-page';
 
 export const countryRoutes: Routes = [
   {
@@ -9,7 +12,20 @@ export const countryRoutes: Routes = [
     children: [
       {
         path: 'by-capital',
-        component: ByCapital,
+        component: ByCapitalPage,
+      },
+      {
+        path: 'by-country',
+        component: ByCountryPage,
+      },
+      {
+        path: 'by-region',
+        component: ByRegionPage,
+      },
+
+      {
+        path: 'by/:nameCountry',
+        component: CountryPage,
       },
       {
         path: '**',
