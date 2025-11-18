@@ -24,7 +24,7 @@ export const countryRoutes: Routes = [
       },
 
       {
-        path: 'by/:nameCountry',
+        path: 'by/:code',
         component: CountryPage,
       },
       {

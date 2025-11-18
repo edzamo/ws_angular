@@ -138,4 +138,14 @@ module.exports = {
   // ...
   plugins: [require("daisyui")],
 }
+
+vamos a tomar informacion de esta rest api publica para consumir nuestros endpoint:
+
+https://restcountries.com/
+
+REST Countries es una API que proporciona información detallada sobre los países del mundo. Permite a los desarrolladores acceder a datos como la capital, la población, la bandera, la moneda y mucha más información a través de sencillos endpoints REST.
+
+## Icon Resources
+
+- [Iconify Design](https://icon-sets.iconify.design/?query=error)
 ```
