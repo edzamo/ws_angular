@@ -1,0 +1,11 @@
+
+@if (countryResourse.error()) {
+    <app-not-found/>
+}
+
+
+@if (countryResourse.hasValue()) {
+   <app-country-information [country]="countryResourse.value()!"/>
+}
+
+
